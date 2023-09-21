@@ -40,7 +40,7 @@ func TestRunFunction(t *testing.T) {
 					Input: resource.MustStructJSON(`{
 						"apiVersion": "dummy.fn.crossplane.io",
 						"kind": "Input",
-						"example": "Hello, world!"
+						"xrd": {"kind":"dummy.fn.crossplane.io/v1beta1", "apiVersion":"Input"}
 					}`),
 				},
 			},
@@ -50,7 +50,7 @@ func TestRunFunction(t *testing.T) {
 					Results: []*fnv1beta1.Result{
 						{
 							Severity: fnv1beta1.Severity_SEVERITY_NORMAL,
-							Message:  "I was run with input \"Hello, world!\"",
+							Message:  "I was run with input {\"dummy.fn.crossplane.io/v1beta1\" \"Input\"}",
 						},
 					},
 				},

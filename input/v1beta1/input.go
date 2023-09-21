@@ -18,10 +18,10 @@ import (
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
 // +kubebuilder:resource:categories=crossplane
-type Input struct {
+type InboundComposite struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	// Example is an example field. Replace it with whatever input you need. :)
-	Example string `json:"example"`
+	// XRD is the GVK information of the composite resource definition the function will check.
+	XRD metav1.TypeMeta `json:"xrd"`
 }

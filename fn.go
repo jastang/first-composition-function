@@ -10,7 +10,7 @@ import (
 	"github.com/crossplane/function-sdk-go/request"
 	"github.com/crossplane/function-sdk-go/response"
 
-	"github.com/crossplane/function-template-go/input/v1beta1"
+	"github.com/crossplane/function-composition-finder/input/v1beta1"
 )
 
 // Function returns whatever response you ask it to.
@@ -35,11 +35,18 @@ func (f *Function) RunFunction(_ context.Context, req *fnv1beta1.RunFunctionRequ
 	// your Function. Input is arbitrary, except that it must be a KRM-like
 	// object. Supporting input is also optional - if you don't need to you can
 	// delete this, and delete the input directory.
-	in := &v1beta1.Input{}
+	in := &v1beta1.InboundComposite{}
 	if err := request.GetInput(req, in); err != nil {
 		response.Fatal(rsp, errors.Wrapf(err, "cannot get Function input from %T", req))
 		return rsp, nil
 	}
+
+	// desired, err := request.GetDesiredCompositeResource(req)
+	// if err != nil {
+	// 	panic(err)
+	// }
+
+	// fmt.Println(desired.Resource.GetAPIVersion())
 
 	// TODO: Add your Function logic here!
 	//
@@ -47,7 +54,7 @@ func (f *Function) RunFunction(_ context.Context, req *fnv1beta1.RunFunctionRequ
 	// and rsp - https://pkg.go.dev/github.com/crossplane/function-sdk-go
 	//
 	// Also, be sure to look at the tips in README.md
-	response.Normalf(rsp, "I was run with input %q", in.Example)
+	response.Normalf(rsp, "I was run with input %q", in.XRD)
 
 	return rsp, nil
 }
