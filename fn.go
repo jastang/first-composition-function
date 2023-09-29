@@ -63,10 +63,7 @@ func (f *Function) RunFunction(_ context.Context, req *fnv1beta1.RunFunctionRequ
 	// If the new Composition is the same as the current compositionRef, we should short-circuit/no-op.
 	if compositionRef := observed.Resource.GetCompositionReference(); compositionRef != nil && compositionRef.Name != in.Name {
 		newCompositionRef := corev1.ObjectReference{
-			Kind:       "Composition",
-			APIVersion: "apiextensions.crossplane.io/v1",
-			Namespace:  "default",
-			Name:       in.Name,
+			Name: in.Name,
 		}
 
 		// TODO: we should verify that the new Composition actually exists in the current context, and that its compositeTypeRef matches.

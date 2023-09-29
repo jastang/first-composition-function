@@ -51,6 +51,7 @@ func TestRunFunction(t *testing.T) {
 									"name": "some-composite"
 								},
 								"spec": {
+									"parameters": {"region": "east"},
 									"compositionRef": {"name": "originalComposition"}
 								}
 							}`),
@@ -65,12 +66,8 @@ func TestRunFunction(t *testing.T) {
 									"name": "some-composite"
 								},
 								"spec": {
-									"compositionRef": {
-										"apiVersion": "apiextensions.crossplane.io/v1",
-										"kind": "Composition",
-										"namespace": "default",
-										"name": "originalComposition"
-									}
+									"parameters": {"region": "east"},
+									"compositionRef": {"name": "originalComposition"}
 								}
 							}`),
 						},
@@ -89,12 +86,8 @@ func TestRunFunction(t *testing.T) {
 									"name": "some-composite"
 								},
 								"spec": {
-									"compositionRef": {
-										"apiVersion": "apiextensions.crossplane.io/v1",
-										"kind": "Composition",
-										"namespace": "default",										
-										"name": "newComposition"
-									}
+									"parameters": {"region": "east"},
+									"compositionRef": {"name": "newComposition"}
 								}
 							}`),
 						},
