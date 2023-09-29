@@ -1,6 +1,9 @@
 ## What is this?
 
-An experimental [Crossplane] composition function that determines the valid Compositions an XR can select. This could serve as a "preprocessing" step in a pipeline that allows the composite to actuate a different Composition based on some business logic, or a debugging tool.
+An experimental [Crossplane] composition function that validates whether the XR
+targeted by the current Composition could be "multiplexed" to a different one. 
+
+This could serve as a "preprocessing" step in a pipeline that allows the composite to actuate a different Composition based on some business logic.
 
 The function will validate:
 

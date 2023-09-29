@@ -1,5 +1,5 @@
 ---
 apiVersion: meta.pkg.crossplane.io/v1
 metadata:
-  name: function-composition-finder
+  name: function-composition-mux
 spec: {}

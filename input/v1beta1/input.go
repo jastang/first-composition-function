@@ -11,17 +11,14 @@ import (
 // This isn't a custom resource, in the sense that we never install its CRD.
 // It is a KRM-like object, so we generate a CRD to describe its schema.
 
-// TODO: Add your input type here! It doesn't need to be called 'Input', you can
-// rename it to anything you like.
-
 // Input can be used to provide input to this Function.
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
 // +kubebuilder:resource:categories=crossplane
-type InboundComposite struct {
+type ProposedComposition struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	// XRD is the GVK information of the composite resource definition the function will check.
-	XRD metav1.TypeMeta `json:"xrd"`
+	// The name of the composition to check compatibility against the composite type.
+	Name string `json:"name"`
 }

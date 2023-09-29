@@ -1,4 +1,4 @@
-module github.com/crossplane/function-composition-finder
+module github.com/crossplane/function-composition-mux
 
 go 1.20
 

@@ -32,25 +32,77 @@ func TestRunFunction(t *testing.T) {
 		args   args
 		want   want
 	}{
-		"ResponseIsReturned": {
-			reason: "The Function should return a fatal result if no input was specified",
+		"CompositionChanged": {
+			reason: "The Function should set the new Composition to render the composite resource if they are compatible",
 			args: args{
 				req: &fnv1beta1.RunFunctionRequest{
 					Meta: &fnv1beta1.RequestMeta{Tag: "hello"},
 					Input: resource.MustStructJSON(`{
-						"apiVersion": "dummy.fn.crossplane.io",
-						"kind": "Input",
-						"xrd": {"kind":"dummy.fn.crossplane.io/v1beta1", "apiVersion":"Input"}
+						"apiVersion": "template.fn.crossplane.io",
+						"kind": "ProposedComposition",
+						"name": "newComposition"
 					}`),
+					Observed: &fnv1beta1.State{
+						Composite: &fnv1beta1.Resource{
+							Resource: resource.MustStructJSON(`{
+								"apiVersion": "test.crossplane.io/v1alpha1",
+								"kind": "TestComposite",
+								"metadata": {
+									"name": "some-composite"
+								},
+								"spec": {
+									"compositionRef": {"name": "originalComposition"}
+								}
+							}`),
+						},
+					},
+					Desired: &fnv1beta1.State{
+						Composite: &fnv1beta1.Resource{
+							Resource: resource.MustStructJSON(`{
+								"apiVersion": "test.crossplane.io/v1alpha1",
+								"kind": "TestComposite",
+								"metadata": {
+									"name": "some-composite"
+								},
+								"spec": {
+									"compositionRef": {
+										"apiVersion": "apiextensions.crossplane.io/v1",
+										"kind": "Composition",
+										"namespace": "default",
+										"name": "originalComposition"
+									}
+								}
+							}`),
+						},
+					},
 				},
 			},
 			want: want{
 				rsp: &fnv1beta1.RunFunctionResponse{
 					Meta: &fnv1beta1.ResponseMeta{Tag: "hello", Ttl: durationpb.New(response.DefaultTTL)},
+					Desired: &fnv1beta1.State{
+						Composite: &fnv1beta1.Resource{
+							Resource: resource.MustStructJSON(`{
+								"apiVersion": "test.crossplane.io/v1alpha1",
+								"kind": "TestComposite",
+								"metadata": {
+									"name": "some-composite"
+								},
+								"spec": {
+									"compositionRef": {
+										"apiVersion": "apiextensions.crossplane.io/v1",
+										"kind": "Composition",
+										"namespace": "default",										
+										"name": "newComposition"
+									}
+								}
+							}`),
+						},
+					},
 					Results: []*fnv1beta1.Result{
 						{
 							Severity: fnv1beta1.Severity_SEVERITY_NORMAL,
-							Message:  "I was run with input {\"dummy.fn.crossplane.io/v1beta1\" \"Input\"}",
+							Message:  `I switched my active composition reference from "originalComposition" to "newComposition"`,
 						},
 					},
 				},
