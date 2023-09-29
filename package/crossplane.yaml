@@ -1,6 +1,5 @@
 ---
-apiVersion: meta.pkg.crossplane.io/v1beta1
-kind: Function
+apiVersion: meta.pkg.crossplane.io/v1
 metadata:
-  name: function-template-go
+  name: function-composition-mux
 spec: {}

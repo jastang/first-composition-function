@@ -1,71 +1,17 @@
-# function-template-go
-
-A [Crossplane] Composition Function template, for Go.
-
 ## What is this?
 
-This is a template for a [Composition Function][function-design].
+An experimental [Crossplane] composition function that validates whether the XR
+targeted by the current Composition could be "multiplexed" to a different one. 
 
-Composition Functions let you extend Crossplane with new ways to 'do
-Composition' - i.e. new ways to produce composed resources given a claim or XR.
-You use Composition Functions instead of the `resources` array of templates.
+This could serve as a "preprocessing" step in a pipeline that allows the composite to actuate a different Composition based on some business logic.
 
-This template creates a beta-style Function. Functions created from this
-template won't work with Crossplane v1.13 or earlier - it targets the
-[implementation of Functions][function-pr] coming with Crossplane v1.14 in late
-October.
+The function will validate:
 
-Keep in mind what is shown here is __far from the final developer experience__
-we want for Functions! This is the very first iteration - we have to start
-somewhere. We want your feedback - what do you want to see from the developer
-experience? Please [raise a Crossplane issue][crossplane-new-issue] with ideas.
+1. The Composition has the correct `compositeTypeRef``
+2. The Composition exists in the cluster context
 
-Here's an example of a Composition that uses a Composition Function.
-
-```yaml
-apiVersion: apiextensions.crossplane.io/v1
-kind: Composition
-metadata:
-  name: test-crossplane
-spec:
-  compositeTypeRef:
-    apiVersion: database.example.com/v1alpha1
-    kind: NoSQL
-  mode: Pipeline
-  pipeline:
-  - step: run-example-function
-    functionRef:
-      name: function-example
-    input:
-      apiVersion: template.fn.crossplane.io/v1beta1
-      kind: Input
-      # Add any input fields here!
-```
-
-Notice that it has a `pipeline` (of Composition Functions) instead of an array
-of `resources`.
 
 ## Developing a Function
-
-This template doesn't use the typical Crossplane build submodule and Makefile,
-since we'd like Functions to have a less heavyweight developer experience.
-It mostly relies on regular old Go tools:
-
-```shell
-# Run code generation - see input/generate.go
-$ go generate ./...
-
-# Run tests
-$ go test -cover ./...
-?       github.com/crossplane/function-template-go/input/v1beta1      [no test files]
-ok      github.com/crossplane/function-template-go    0.006s  coverage: 25.8% of statements
-
-# Lint the code
-$ docker run --rm -v $(pwd):/app -v ~/.cache/golangci-lint/v1.54.2:/root/.cache -w /app golangci/golangci-lint:v1.54.2 golangci-lint run
-
-# Build a Docker image - see Dockerfile
-$ docker build .
-```
 
 This Function can be pushed to any Docker registry. To push to xpkg.upbound.io
 use `docker push` and `docker-credential-up` from
