@@ -1,4 +1,4 @@
-module github.com/crossplane/function-composition-mux
+module github.com/crossplane/function-composition-swap
 
 go 1.20
 

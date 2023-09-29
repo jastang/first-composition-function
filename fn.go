@@ -10,7 +10,7 @@ import (
 	"github.com/crossplane/function-sdk-go/request"
 	"github.com/crossplane/function-sdk-go/response"
 
-	"github.com/crossplane/function-composition-mux/input/v1beta1"
+	"github.com/crossplane/function-composition-swap/input/v1beta1"
 
 	corev1 "k8s.io/api/core/v1"
 )

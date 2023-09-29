@@ -1,0 +1,12 @@
+---
+apiVersion: pkg.crossplane.io/v1beta1
+kind: Function
+metadata:
+  name: function-composition-swap
+  annotations:
+    xrender.crossplane.io/runtime: Docker
+    xrender.crossplane.io/runtime-docker-cleanup: Orphan
+    xrender.crossplane.io/runtime-docker-image: ec63405f24dc # TODO: push to remote registry.
+    xrender.crossplane.io/runtime-docker-pull-policy: Never
+spec:
+  package: xpkg.upbound.io/crossplane-contrib/function-dummy:v0.2.1

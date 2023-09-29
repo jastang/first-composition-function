@@ -1,0 +1,9 @@
+apiVersion: jason.org/v1alpha1
+kind: XSimpleBucket
+metadata:
+  name: test-xrender
+spec:
+  compositionRef:
+    name: old-composition
+  parameters:
+    region: east

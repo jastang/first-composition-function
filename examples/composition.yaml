@@ -1,0 +1,20 @@
+---
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: bucket-roulette
+spec:
+  compositeTypeRef:
+    apiVersion: jason.org/v1alpha1
+    kind: XSimpleBucket
+  mode: Pipeline
+  pipeline:
+  - step: change the active composition
+    functionRef:
+      name: function-composition-swap
+    input:
+      apiVersion: template.fn.crossplane.io/v1beta1
+      kind: ProposedComposition
+      # This is a YAML-serialized RunFunctionResponse.
+      name: new-composition
+        
